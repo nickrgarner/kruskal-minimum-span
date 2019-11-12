@@ -11,8 +11,17 @@ import java.util.Scanner;
 public class Kruskal {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		// Maximum number of edges for this project
+		int maxEdges = 5000;
 
+		// Create heap object initialzed with array of 5000
+		Kruskal main = new Kruskal();
+		Heap mainHeap = main.new Heap(maxEdges);
+		
+		// Import edges from input file
+		mainHeap.importEdges();
+		// Test function, prints all edges in heap in deleteMin order
+		mainHeap.printAllEdges();
 	}
 
 	/**
@@ -105,7 +114,7 @@ public class Kruskal {
 		 * Sorts the heap after a new edge is inserted.
 		 * 
 		 * @param h Heap to sort
-		 * @param i Position, not index, of latest element
+		 * @param i Position of latest element
 		 */
 		public void upHeap(Edge[] h, int i) {
 			if (i > 0) {
@@ -119,7 +128,41 @@ public class Kruskal {
 		}
 
 		public Edge deleteMin() {
-			return null;
+			Edge output = heapArray[0];
+			size--;
+			heapArray[0] = heapArray[size];
+			downHeap(heapArray, 0);
+			return output;
+		}
+
+		public void downHeap(Edge[] h, int m) {
+			int i = 0;
+			if ((2 * m + 2) < size) {
+				if (h[2 * m + 2].getWeight() <= h[2 * m + 1].getWeight()) {
+					i = 2 * m + 2;
+				} else {
+					i = 2 * m + 1;
+				}
+			} else if ((2 * m + 1) < size) {
+				i = 2 * m + 1;
+			}
+			if (i > 0 && h[m].getWeight() > h[i].getWeight()) {
+				// Swap m with its child, call recursively
+				Edge temp = h[m];
+				h[m] = h[i];
+				h[i] = temp;
+				downHeap(h, i);
+			}
+		}
+
+		public void printAllEdges() {
+			int numEdges = size;
+			for (int i = 0; i < numEdges; i++) {
+				Edge current = deleteMin();
+				int vertex1 = Integer.min(current.vertex1, current.vertex2);
+				int vertex2 = Integer.max(current.vertex1, current.vertex2);
+				System.out.printf("%-4d %-4d %-4.1f\n", vertex1, vertex2, current.getWeight());
+			}
 		}
 	}
 }
