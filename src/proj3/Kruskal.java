@@ -20,8 +20,12 @@ public class Kruskal {
 
 		// Import edges from input file
 		mainHeap.importEdges();
-		// Test function, prints all edges in heap in deleteMin order
-		mainHeap.printAllEdges();
+
+		// Create adjacency list and insert edges from heap
+		AdjList adjList = main.new AdjList(mainHeap.size());
+		for (int i = 0; i < mainHeap.size(); i++) {
+			adjList.insertEdge(mainHeap.getHeapArray()[i]);
+		}
 	}
 
 	/**
@@ -66,6 +70,24 @@ public class Kruskal {
 		 */
 		public double getWeight() {
 			return this.weight;
+		}
+
+		/**
+		 * Returns the first endpoint of this edge
+		 * 
+		 * @return First endpoint of this edge
+		 */
+		public int getVertex1() {
+			return vertex1;
+		}
+
+		/**
+		 * Returns the second endpoint of this edge
+		 * 
+		 * @return Second endpoint of this edge
+		 */
+		public int getVertex2() {
+			return vertex2;
 		}
 	}
 
@@ -196,6 +218,45 @@ public class Kruskal {
 				int vertex2 = Integer.max(current.vertex1, current.vertex2);
 				System.out.printf("%-4d %-4d %-4.1f\n", vertex1, vertex2, current.getWeight());
 			}
+		}
+
+		/**
+		 * Returns number of elements currently in the heap
+		 * 
+		 * @return Number of elements in the heap
+		 */
+		public int size() {
+			return size;
+		}
+
+		/**
+		 * Returns the array for this heap
+		 * 
+		 * @return Array for this heap
+		 */
+		public Edge[] getHeapArray() {
+			return heapArray;
+		}
+	}
+
+	private class AdjList {
+
+		int[][] adjArray;
+
+		public AdjList(int numEdges) {
+			adjArray = new int[numEdges][numEdges];
+		}
+
+		public void insertEdge(Edge edge) {
+			int v1 = edge.getVertex1();
+			int v2 = edge.getVertex2();
+		}
+	}
+
+	private class upTree {
+
+		private class Node {
+
 		}
 	}
 }
