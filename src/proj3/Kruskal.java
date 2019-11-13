@@ -18,14 +18,18 @@ public class Kruskal {
 		Kruskal main = new Kruskal();
 		Heap mainHeap = main.new Heap(maxEdges);
 
-		// Import edges from input file
+		// Import edges from input file, print heap
 		mainHeap.importEdges();
+		mainHeap.printAllEdges();
 
 		// Create adjacency list and insert edges from heap
-		AdjList adjList = main.new AdjList(mainHeap.size());
+		AdjList adjList = main.new AdjList(mainHeap.getNumNodes());
 		for (int i = 0; i < mainHeap.size(); i++) {
 			adjList.insertEdge(mainHeap.getHeapArray()[i]);
 		}
+
+		// Print adjacency list
+		adjList.printAdjList();
 	}
 
 	/**
@@ -216,7 +220,7 @@ public class Kruskal {
 				Edge current = heapArray[i];
 				int vertex1 = Integer.min(current.vertex1, current.vertex2);
 				int vertex2 = Integer.max(current.vertex1, current.vertex2);
-				System.out.printf("%-4d %-4d %-4.1f\n", vertex1, vertex2, current.getWeight());
+				System.out.printf("%4d %4d\n", vertex1, vertex2);
 			}
 		}
 
@@ -237,19 +241,78 @@ public class Kruskal {
 		public Edge[] getHeapArray() {
 			return heapArray;
 		}
+
+		/**
+		 * Returns the number of nodes in the graph based on the highest vertex value in
+		 * the heap
+		 * 
+		 * @return Number of nodes in the graph
+		 */
+		public int getNumNodes() {
+			int max = -1;
+			for (int i = 0; i < size; i++) {
+				if (heapArray[i].getVertex1() > max) {
+					max = heapArray[i].getVertex1();
+				}
+				if (heapArray[i].getVertex2() > max) {
+					max = heapArray[i].getVertex2();
+				}
+			}
+			// Number of nodes is n + 1
+			return max + 1;
+		}
 	}
 
+	/**
+	 * Class defines state and behavior for a 2D array holding record of adjacent
+	 * vertices for each vertex in the graph. Edges are read from the heap and their
+	 * endpoints used to fill the AdjList.
+	 * 
+	 * @author Nick Garner, nrgarner
+	 *
+	 */
 	private class AdjList {
 
-		int[][] adjArray;
+		/** 2D Array holding adjacent nodes for each vertex */
+		private int[][] adjArray;
 
-		public AdjList(int numEdges) {
-			adjArray = new int[numEdges][numEdges];
+		/**
+		 * Creates a new AdjList for the given number of nodes
+		 * 
+		 * @param numNodes Number of nodes in the graph
+		 */
+		public AdjList(int numNodes) {
+			adjArray = new int[numNodes][numNodes];
 		}
 
+		/**
+		 * Takes an edge and adds its endpoints to each other's adjacency lists as bool
+		 * values of 1
+		 * 
+		 * @param edge
+		 */
 		public void insertEdge(Edge edge) {
 			int v1 = edge.getVertex1();
 			int v2 = edge.getVertex2();
+			// Insert v2 into v1's list
+			adjArray[v1][v2] = 1;
+			adjArray[v2][v1] = 1;
+		}
+
+		/**
+		 * Loops through adjacency list and prints out adjacent nodes for each vertex
+		 */
+		public void printAdjList() {
+			// TODO Fix extra space on final node
+			int numNodes = adjArray.length;
+			for (int i = 0; i < numNodes; i++) {
+				for (int k = 0; k < numNodes; k++) {
+					if (adjArray[i][k] == 1) {
+						System.out.printf("%4d ", k);
+					}
+				}
+				System.out.print("\n");
+			}
 		}
 	}
 
