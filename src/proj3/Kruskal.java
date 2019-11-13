@@ -17,7 +17,7 @@ public class Kruskal {
 		// Create heap object initialzed with array of 5000
 		Kruskal main = new Kruskal();
 		Heap mainHeap = main.new Heap(maxEdges);
-		
+
 		// Import edges from input file
 		mainHeap.importEdges();
 		// Test function, prints all edges in heap in deleteMin order
@@ -59,17 +59,36 @@ public class Kruskal {
 			this.next = next;
 		}
 
+		/**
+		 * Returns the weight of this edge as a double value
+		 * 
+		 * @return Weight of this edge as a double
+		 */
 		public double getWeight() {
 			return this.weight;
 		}
 	}
 
+	/**
+	 * Class defines state and behavior for Heap data structure to read in and sort
+	 * Edges from input file. Edges are partially-ordered by weight.
+	 * 
+	 * @author Nick Garner, nrgarner
+	 *
+	 */
 	private class Heap {
 
+		/** Array to hold edges in heap */
 		private Edge[] heapArray;
 
+		/** Number of edges currently in the heap */
 		private int size;
 
+		/**
+		 * Creates a new heap with the given capacity
+		 * 
+		 * @param capacity Maximum number of elements this heap can hold
+		 */
 		public Heap(int capacity) {
 			heapArray = new Edge[capacity];
 			this.size = 0;
@@ -127,6 +146,11 @@ public class Kruskal {
 			}
 		}
 
+		/**
+		 * Deletes and returns the edge with the minimum weight
+		 * 
+		 * @return Edge in the heap with minimum weight
+		 */
 		public Edge deleteMin() {
 			Edge output = heapArray[0];
 			size--;
@@ -135,6 +159,12 @@ public class Kruskal {
 			return output;
 		}
 
+		/**
+		 * Recursive method that restores heap partial-order after deleteMin operation
+		 * 
+		 * @param h Array of the heap
+		 * @param m Position of current element
+		 */
 		public void downHeap(Edge[] h, int m) {
 			int i = 0;
 			if ((2 * m + 2) < size) {
@@ -155,10 +185,13 @@ public class Kruskal {
 			}
 		}
 
+		/**
+		 * Prints all edges in the heap in level-order
+		 */
 		public void printAllEdges() {
 			int numEdges = size;
 			for (int i = 0; i < numEdges; i++) {
-				Edge current = deleteMin();
+				Edge current = heapArray[i];
 				int vertex1 = Integer.min(current.vertex1, current.vertex2);
 				int vertex2 = Integer.max(current.vertex1, current.vertex2);
 				System.out.printf("%-4d %-4d %-4.1f\n", vertex1, vertex2, current.getWeight());
