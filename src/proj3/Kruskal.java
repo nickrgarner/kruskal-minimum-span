@@ -340,6 +340,46 @@ public class Kruskal {
 		}
 
 		/**
+		 * Checks that v1 and v2 are in different UpTrees and then joins them via a
+		 * balanced Union.
+		 * 
+		 * @param v1 First endpoint of the current edge
+		 * @param v2 Second endpoint of the current edge
+		 * @return True if UpTrees are unioned together and Edge should be added to MST,
+		 *         False otherwise
+		 */
+		public boolean union(int v1, int v2) {
+			if (findRoot(v1) != findRoot(v2)) {
+				// Nodes are in different UpTrees
+				int root1 = findRoot(v1);
+				int root2 = findRoot(v2);
+				if (forest[root1] < forest[root2]) {
+					forest[root1] -= forest[root2];
+					forest[root2] = root1;
+					return true;
+				} else {
+					forest[root2] -= forest[root1];
+					forest[root1] = root2;
+					return true;
+				}
+			}
+			return false;
+		}
+
+		/**
+		 * Returns the index of the root of the UpTree this node is in.
+		 * @param node Node you want to find the UpTree root of.
+		 * @return Index of the UpTree root of this node.
+		 */
+		public int findRoot(int node) {
+			if (forest[node] < 0) {
+				return node;
+			} else {
+				return findRoot(forest[node]);
+			}
+		}
+
+		/**
 		 * Initializes upTreeArray with singleton sets, i.e. value of -1 for node count
 		 * of 1
 		 * 
