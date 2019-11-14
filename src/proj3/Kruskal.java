@@ -470,19 +470,28 @@ public class Kruskal {
 		}
 
 		/**
-		 * Inserts the given edge to the end of the MST linked list and increments its
-		 * size.
+		 * Inserts the given edge into the MST linked list in increasing order of
+		 * endpoint values.
 		 * 
 		 * @param edge Edge to insert into the list.
 		 */
 		public void insert(Edge edge) {
+			int v1 = Integer.min(edge.getVertex1(), edge.getVertex2());
+			int v2 = Integer.max(edge.getVertex1(), edge.getVertex2());
 			Edge current = head;
 			Edge previous = null;
-			while (current != null) {
+			while (current != null && Integer.min(current.getVertex1(), current.getVertex2()) != v1) {
+				previous = current;
+				current = current.next;
+			}
+
+			while (current != null && Integer.min(current.getVertex1(), current.getVertex2()) == v1
+					&& Integer.max(current.getVertex1(), current.getVertex2()) < v2) {
 				previous = current;
 				current = current.next;
 			}
 			previous.next = edge;
+			edge.next = current;
 			size++;
 		}
 
