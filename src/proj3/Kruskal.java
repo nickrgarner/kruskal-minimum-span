@@ -316,10 +316,48 @@ public class Kruskal {
 		}
 	}
 
-	private class upTree {
+	/**
+	 * Class defines state and behavior for an array-based representation of
+	 * UpTrees. Nodes start out as singleton sets and are unioned together as edges
+	 * are deleted from the heap.
+	 * 
+	 * @author Nick Garner
+	 *
+	 */
+	private class UpTreeList {
 
-		private class Node {
+		/** Array to hold UpTrees */
+		private int[] forest;
 
+		/**
+		 * Creates a new UpTreeList for the given number of nodes
+		 * 
+		 * @param numNodes
+		 */
+		public UpTreeList(int numNodes) {
+			forest = new int[numNodes];
+			initializeUpTrees(forest);
+		}
+
+		/**
+		 * Initializes upTreeArray with singleton sets, i.e. value of -1 for node count
+		 * of 1
+		 * 
+		 * @param upTreeArray Array to initialize with singleton sets
+		 */
+		public void initializeUpTrees(int[] upTreeArray) {
+			for (int i = 0; i < upTreeArray.length; i++) {
+				upTreeArray[i] = -1;
+			}
+		}
+
+		/**
+		 * Returns the forest array for this UpTreeList
+		 * 
+		 * @return Forest array of UpTrees
+		 */
+		public int[] getForest() {
+			return forest;
 		}
 	}
 }
