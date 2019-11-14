@@ -478,6 +478,7 @@ public class Kruskal {
 		public void insert(Edge edge) {
 			if (size() == 0) {
 				head = edge;
+				size++;
 			} else {
 				int v1 = Integer.min(edge.getVertex1(), edge.getVertex2());
 				int v2 = Integer.max(edge.getVertex1(), edge.getVertex2());
