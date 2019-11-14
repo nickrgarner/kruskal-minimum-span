@@ -370,11 +370,11 @@ public class Kruskal {
 				int root1 = findRoot(v1);
 				int root2 = findRoot(v2);
 				if (forest[root1] < forest[root2]) {
-					forest[root1] -= forest[root2];
+					forest[root1] += forest[root2];
 					forest[root2] = root1;
 					return true;
 				} else {
-					forest[root2] -= forest[root1];
+					forest[root2] += forest[root1];
 					forest[root1] = root2;
 					return true;
 				}
@@ -476,23 +476,27 @@ public class Kruskal {
 		 * @param edge Edge to insert into the list.
 		 */
 		public void insert(Edge edge) {
-			int v1 = Integer.min(edge.getVertex1(), edge.getVertex2());
-			int v2 = Integer.max(edge.getVertex1(), edge.getVertex2());
-			Edge current = head;
-			Edge previous = null;
-			while (current != null && Integer.min(current.getVertex1(), current.getVertex2()) != v1) {
-				previous = current;
-				current = current.next;
+			if (size() == 0) {
+				head = edge;
+			} else {
+				int v1 = Integer.min(edge.getVertex1(), edge.getVertex2());
+				int v2 = Integer.max(edge.getVertex1(), edge.getVertex2());
+				Edge current = head;
+				Edge previous = null;
+				while (current != null && Integer.min(current.getVertex1(), current.getVertex2()) != v1) {
+					previous = current;
+					current = current.next;
+				}
+	
+				while (current != null && Integer.min(current.getVertex1(), current.getVertex2()) == v1
+						&& Integer.max(current.getVertex1(), current.getVertex2()) < v2) {
+					previous = current;
+					current = current.next;
+				}
+				previous.next = edge;
+				edge.next = current;
+				size++;
 			}
-
-			while (current != null && Integer.min(current.getVertex1(), current.getVertex2()) == v1
-					&& Integer.max(current.getVertex1(), current.getVertex2()) < v2) {
-				previous = current;
-				current = current.next;
-			}
-			previous.next = edge;
-			edge.next = current;
-			size++;
 		}
 
 		/**
