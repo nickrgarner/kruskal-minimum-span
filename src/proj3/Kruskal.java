@@ -14,7 +14,7 @@ public class Kruskal {
 		// Maximum number of edges for this project
 		int maxEdges = 5000;
 
-		// Create heap object initialzed with array of 5000
+		// Create heap object initialized with array of 5000
 		Kruskal main = new Kruskal();
 		Heap mainHeap = main.new Heap(maxEdges);
 
@@ -368,6 +368,7 @@ public class Kruskal {
 
 		/**
 		 * Returns the index of the root of the UpTree this node is in.
+		 * 
 		 * @param node Node you want to find the UpTree root of.
 		 * @return Index of the UpTree root of this node.
 		 */
@@ -398,6 +399,62 @@ public class Kruskal {
 		 */
 		public int[] getForest() {
 			return forest;
+		}
+	}
+
+	/**
+	 * Class defines state and behavior for a LinkedList of edges representing the
+	 * Minimum Spanning Tree for the graph being parsed. Functionality is included
+	 * for inserting new edges at the end of the list.
+	 * 
+	 * @author Nick Garner
+	 *
+	 */
+	private class MSTList {
+
+		/** Pointer to the node at the front of the list */
+		private Edge head;
+
+		/** Number of elements in the MST */
+		private int size;
+
+		/**
+		 * Creates a new empty MST with a null head and a size of 0.
+		 */
+		public MSTList() {
+			head = null;
+			size = 0;
+		}
+
+		/**
+		 * Inserts the given edge to the end of the MST linked list and increments its size.
+		 * @param edge Edge to insert into the list.
+		 */
+		public void insert(Edge edge) {
+			Edge current = head;
+			Edge previous = null;
+			while (current != null) {
+				previous = current;
+				current = current.next;
+			}
+			previous.next = edge;
+			size++;
+		}
+
+		/**
+		 * Returns a pointer to the head of the MSTList
+		 * @return Pointer to the MSTList head
+		 */
+		public Edge getHead() {
+			return head;
+		}
+
+		/**
+		 * Number of elements in the MST
+		 * @return Number of elements in the MST
+		 */
+		public int size() {
+			return size;
 		}
 	}
 }
