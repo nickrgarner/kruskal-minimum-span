@@ -42,9 +42,11 @@ public class Kruskal {
 		}
 
 		// Print MST
+//		System.out.println("\nMST edges:\n");
 		mst.printMST();
 
 		// Print adjacency list
+//		System.out.println("\nAdj List:\n");
 		adjList.printAdjList();
 	}
 
@@ -476,6 +478,7 @@ public class Kruskal {
 		 * @param edge Edge to insert into the list.
 		 */
 		public void insert(Edge edge) {
+			// TODO Edges are not being inserted in proper order
 			if (size() == 0) {
 				head = edge;
 				size++;
@@ -484,7 +487,7 @@ public class Kruskal {
 				int v2 = Integer.max(edge.getVertex1(), edge.getVertex2());
 				Edge current = head;
 				Edge previous = null;
-				while (current != null && Integer.min(current.getVertex1(), current.getVertex2()) != v1) {
+				while (current != null && Integer.min(current.getVertex1(), current.getVertex2()) < v1) {
 					previous = current;
 					current = current.next;
 				}
@@ -494,8 +497,13 @@ public class Kruskal {
 					previous = current;
 					current = current.next;
 				}
-				previous.next = edge;
-				edge.next = current;
+				if (current == head) {
+					edge.next = head;
+					head = edge;
+				} else {
+					previous.next = edge;
+					edge.next = current;
+				}
 				size++;
 			}
 		}
