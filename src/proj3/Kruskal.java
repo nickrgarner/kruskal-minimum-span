@@ -28,6 +28,22 @@ public class Kruskal {
 			adjList.insertEdge(mainHeap.getHeapArray()[i]);
 		}
 
+		// Create MST and UpTreeList
+		UpTreeList upTrees = main.new UpTreeList(mainHeap.getNumNodes());
+		MSTList mst = main.new MSTList();
+
+		// Remove edges from heap in min-weight order, add to MST if edge joins UpTrees
+		// together
+		while (!upTrees.verifyMST()) {
+			Edge current = mainHeap.deleteMin();
+			if (upTrees.union(current.getVertex1(), current.getVertex2())) {
+				mst.insert(current);
+			}
+		}
+
+		// Print MST
+		mst.printMST();
+
 		// Print adjacency list
 		adjList.printAdjList();
 	}
@@ -400,6 +416,33 @@ public class Kruskal {
 		public int[] getForest() {
 			return forest;
 		}
+
+		/**
+		 * Loops through the UpTree array and returns true if there is only one root and
+		 * all nodes point to it.
+		 * 
+		 * @return True if UpTree array has exactly one root and all nodes are in the
+		 *         same UpTree, False otherwise.
+		 */
+		public boolean verifyMST() {
+			boolean rootFound = false;
+			int root = -1;
+			for (int i = 0; i < forest.length; i++) {
+				if (forest[i] < 0) {
+					if (!rootFound) {
+						rootFound = true;
+						root = i;
+					} else {
+						return false;
+					}
+				} else {
+					if (rootFound && forest[i] != root) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
 	}
 
 	/**
@@ -427,7 +470,9 @@ public class Kruskal {
 		}
 
 		/**
-		 * Inserts the given edge to the end of the MST linked list and increments its size.
+		 * Inserts the given edge to the end of the MST linked list and increments its
+		 * size.
+		 * 
 		 * @param edge Edge to insert into the list.
 		 */
 		public void insert(Edge edge) {
@@ -443,6 +488,7 @@ public class Kruskal {
 
 		/**
 		 * Returns a pointer to the head of the MSTList
+		 * 
 		 * @return Pointer to the MSTList head
 		 */
 		public Edge getHead() {
@@ -451,10 +497,20 @@ public class Kruskal {
 
 		/**
 		 * Number of elements in the MST
+		 * 
 		 * @return Number of elements in the MST
 		 */
 		public int size() {
 			return size;
+		}
+
+		public void printMST() {
+			Edge current = head;
+			while (current != null) {
+				System.out.printf("%4d %4d\n", Integer.min(current.getVertex1(), current.getVertex2()),
+						Integer.max(current.getVertex1(), current.getVertex2()));
+				current = current.next;
+			}
 		}
 	}
 }
