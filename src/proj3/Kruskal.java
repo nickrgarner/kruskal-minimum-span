@@ -428,17 +428,11 @@ public class Kruskal {
 		 */
 		public boolean verifyMST() {
 			boolean rootFound = false;
-			int root = -1;
 			for (int i = 0; i < forest.length; i++) {
 				if (forest[i] < 0) {
 					if (!rootFound) {
 						rootFound = true;
-						root = i;
 					} else {
-						return false;
-					}
-				} else {
-					if (rootFound && forest[i] != root) {
 						return false;
 					}
 				}
@@ -478,7 +472,6 @@ public class Kruskal {
 		 * @param edge Edge to insert into the list.
 		 */
 		public void insert(Edge edge) {
-			// TODO Edges are not being inserted in proper order
 			if (size() == 0) {
 				head = edge;
 				size++;
