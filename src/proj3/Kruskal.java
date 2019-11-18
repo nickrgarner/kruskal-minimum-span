@@ -42,11 +42,9 @@ public class Kruskal {
 		}
 
 		// Print MST
-//		System.out.println("\nMST edges:\n");
 		mst.printMST();
 
 		// Print adjacency list
-//		System.out.println("\nAdj List:\n");
 		adjList.printAdjList();
 	}
 
@@ -212,7 +210,7 @@ public class Kruskal {
 		public void downHeap(Edge[] h, int m) {
 			int i = 0;
 			if ((2 * m + 2) < size) {
-				if (h[2 * m + 2].getWeight() <= h[2 * m + 1].getWeight()) {
+				if (h[2 * m + 2].getWeight() < h[2 * m + 1].getWeight()) {
 					i = 2 * m + 2;
 				} else {
 					i = 2 * m + 1;
