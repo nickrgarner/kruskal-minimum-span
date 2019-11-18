@@ -321,15 +321,20 @@ public class Kruskal {
 		 * Loops through adjacency list and prints out adjacent nodes for each vertex
 		 */
 		public void printAdjList() {
-			// TODO Fix extra space on final node
 			int numNodes = adjArray.length;
 			for (int i = 0; i < numNodes; i++) {
+				int currentAdj = -1;
 				for (int k = 0; k < numNodes; k++) {
 					if (adjArray[i][k] == 1) {
-						System.out.printf("%4d ", k);
+						if (currentAdj < 0) {
+							currentAdj = k;
+						} else {
+							System.out.printf("%4d ", currentAdj);
+							currentAdj = k;
+						}
 					}
 				}
-				System.out.print("\n");
+				System.out.printf("%4d\n", currentAdj);
 			}
 		}
 	}
@@ -484,7 +489,7 @@ public class Kruskal {
 					previous = current;
 					current = current.next;
 				}
-	
+
 				while (current != null && Integer.min(current.getVertex1(), current.getVertex2()) == v1
 						&& Integer.max(current.getVertex1(), current.getVertex2()) < v2) {
 					previous = current;
